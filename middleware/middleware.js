@@ -3,7 +3,7 @@ const Review = require("../models/review.js")
 
 module.exports.isLogin = async (req, res, next) => {
   if (!req.isAuthenticated()) {
-    // passport ar by default method ja login/sign up ar thakle true return kore r noyto false return kore
+    // Passport's default method returns true if login/sign-up is successful; otherwise, it returns false.
     req.session.redirectUrl = req.originalUrl;
     req.flash("error", "At first loggedin");
     return res.redirect("/login");

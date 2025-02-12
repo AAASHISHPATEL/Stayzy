@@ -28,7 +28,7 @@ module.exports.logInForm = (req, res) => {
 };
 
 module.exports.logIn = async (req, res) => {
-  // ai md ware ar maddhome pasport check kore j username deoa ho66e seta already DB te save ache kina
+  // This middleware uses Passport to check whether the provided username is already saved in the database.
   req.flash("success", "Successfully login");
   let reDirectVer = res.locals.saveurl || "/listing";
   res.redirect(reDirectVer);

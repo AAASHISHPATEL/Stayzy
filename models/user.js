@@ -5,8 +5,8 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const userSchema = new Schema({
   email: {
     type: String,
-    require: true
-  }     //autometic vabe ekhane username ar key creat hoyjabe
+    require: true,
+  }, //Here, the username key will be automatically created.
 });
 
 userSchema.plugin(passportLocalMongoose);

@@ -49,7 +49,7 @@ const store = MongoStore.create({
 });
 
 store.on("error", () => {
-  console.log("ErroR is :->", err);
+  console.log("Error is :->", err);
 });
 
 const sess = {
@@ -71,12 +71,12 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
-passport.deserializeUser(User.deserializeUser()); //ai  5 ta line amake authentication ar 3 te package use ar jonno likhtei hobe
+passport.deserializeUser(User.deserializeUser()); //I must write 5 lines of code and use 3 packages for authentication
 
 app.use((req, res, next) => {
   res.locals.success = req.flash("success"); //success in an array
   res.locals.error = req.flash("error");
-  res.locals.currentUser = req.user; //req.user k direct ejs template a use korte parbo na tai locals assave korlam, r access ar jonno kebol currentUser likte hobey
+  res.locals.currentUser = req.user; //I can't use req.user directly in the EJS template, so I saved it in locals, and for access, I just need to use currentUser.
   next();
 });
 
@@ -102,11 +102,11 @@ app.post("/listing/search/", async (req, res) => {
 });
 
 app.all("*", (req, res, next) => {
-  next(new ExpressError(404, "ERROR, PAGE NOT FOUND")); //ata mandetory, protita server ai code ta likhtei hoy for err handling
+  next(new ExpressError(404, "ERROR, PAGE NOT FOUND")); //This is mandatory; this error-handling code must be written in every server.
 });
 
 app.use((err, req, res, next) => {
-  let { status = 500, message = "something wrong" } = err; //ata mandetory, protita server ai code ta likhtei hoy for err handling
+  let { status = 500, message = "something wrong" } = err; //This is mandatory; this code must be written in every server for error handling.
   res.render("error/error.ejs", { message });
 });
 

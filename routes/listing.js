@@ -5,27 +5,27 @@ const { isLogin, isOwner } = require("../middleware/middleware.js");
 const listingController = require("../controllers/listing.js");
 const multer = require("multer");
 const { storage } = require("../cloudConfig.js");
-const upload = multer({ storage }); //for frontend theke asa file kl kothaysave korbo ata ai line ar maddhome thik kora hoy
+const upload = multer({ storage }); //This line determines where the files coming from the frontend will be saved.
 
 //home route
 router.get("/", wrapAsync(listingController.index));
 
-//new post ar jonno new ejs file show korbe
+//A new EJS file will be displayed for creating a new post.
 router.get("/new", isLogin, listingController.newPostForm);
 
-//individual id dekhar jonno #show route
+//The #show route is used to display an individual ID.
 router.get("/:id", wrapAsync(listingController.showSingleListing));
 
-//new listing save ar post request #creat route
+//The #create route handles the POST request for saving a new listing.
 router.post("/", upload.single("listing[image]"), wrapAsync(listingController.newListingSave));
 
-//edit from show korar jonno
+//To display the edit form.
 router.get("/:id/edit", isLogin, isOwner, wrapAsync(listingController.editForm));
 
-//update korar jonno
+//To update the listing.
 router.put("/:id", isLogin, isOwner, upload.single("listing[image]"), wrapAsync(listingController.listingUpdate));
 
-//delete korar jonno
+//To delete the listing.
 router.delete("/:id", isLogin, isOwner, wrapAsync(listingController.distroyListinf));
 
 module.exports = router;

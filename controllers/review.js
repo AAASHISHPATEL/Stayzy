@@ -3,10 +3,7 @@ const Review = require("../models/review.js");
 
 
 module.exports.addReview = async (req, res, next) => {
-  let { id } = req.params; //akhin ekhane kono :id asbe na karon ,listing/:id/reviews app.js likhle ,
-  //asa :id oi app.js file ai roy jay tai oi :id pass koranor jonnoilikhte
-  //hoyche "marge params" ta likhle perent rout a asa parameter k child ar
-  //sathe marge kore day
+  let { id } = req.params; //Here, no :id will come because in app.js, we wrote listing/:id/reviews. The :id stays in app.js, so to pass that :id, we use mergeParams. This merges the parameters from the parent route with the child route.
   let listing = await Listing.findById(id);
   let { rating, comment } = await req.body;
   let newReview = new Review({ rating, comment });
