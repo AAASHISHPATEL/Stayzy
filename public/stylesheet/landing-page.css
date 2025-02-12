@@ -1,0 +1,84 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box !important;
+  font-family: 'Montserrat', sans-serif;
+}
+
+html,
+body {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #fe424d;
+  flex-direction: column;
+  cursor:pointer;
+}
+
+h1 {
+  font-size: 5rem;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+  color: #fe424d;
+}
+
+h6 {
+  font-size: 2.5rem;
+}
+
+a div {
+  background-color: white;
+  padding: 0.62rem 2.5rem 0.8rem 2.5rem;
+  border-radius: 1.8rem;
+}
+
+h3 {
+  font-size: 3.2rem;
+}
+
+.sayan {
+  font-size: 1.6rem;
+  position: absolute;
+  right: 0.25rem;
+  bottom: 0.12rem;
+  display: flex;
+  align-items: center;
+}
+
+.sayan a{
+  color: white;
+}
+
+@media (max-width: 630px) {
+  h1 {
+    font-size:12vw;
+  }
+
+  a {
+    text-decoration: none;
+    color: #fe424d;
+  }
+
+  h6 {
+    font-size: 6.2vw;
+  }
+
+  a div {
+    background-color: white;
+    padding: 0.4rem 0.75rem 0.6rem 0.75rem;
+    border-radius: 1.8rem;
+  }
+
+  h3 {
+    font-size: 8vw;
+  }
+
+  .sayan {
+    font-size: 0.9rem;
+  }
+}

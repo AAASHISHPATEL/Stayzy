@@ -1,0 +1,101 @@
+<% layout('/layouts/boilerplats') -%>
+
+<div class="show-main body">
+  <h2>Listing in detail</h2>
+  <div class="s-123">
+    <div class="show-img"><img style="margin-right: 0.8rem" class="my-sm-3 my-3 img1" src="<%= fulllisting.image.url %>" /><img class="mb-sm-3 my-3 img2" src="<%= fulllisting.image.url %>" /></div>
+    <h3><%= fulllisting.title %> <br>( <b>@<%= fulllisting.owner.username %></b> )</h3>
+    <div class="show-about">
+      <p><%= fulllisting.description %></p>
+      <p>&#8377;&nbsp;<%=fulllisting.price.toLocaleString("en-IN") %></p>
+      <p><%= fulllisting.location %>, <%= fulllisting.country %></p>
+    </div>
+    <% if(currentUser && currentUser.username == fulllisting.owner.username) { %>
+    <div class="edit-btn">
+      <a href="/listing/<%= fulllisting._id %>/edit"><button class="a">Edit</button></a>
+    </div>
+    <div class="delet-btn">
+      <a><button class="a pr-1">Delet</button></a>
+    </div>
+    <hr>
+    <% } %>
+    <div>
+      
+<!-- review form -->
+      <% if(currentUser) { %>
+        <h3>Leave a review</h3>
+        <form method="post" action="/listing/<%= fulllisting._id %>/reviews" novalidate class="needs-validation">
+          <div class="mb-4 mt-4">
+          
+          <label>Rating</label>
+          <fieldset class="starability-grow">
+            <legend></legend>
+            <input type="radio" id="no-rate" class="input-no-rate" name="rating" value="1" checked aria-label="No rating." />
+            <input type="radio" id="first-rate1" name="rating" value="1" />
+            <label for="first-rate1" title="Terrible">1 star</label>
+            <input type="radio" id="first-rate2" name="rating" value="2" />
+            <label for="first-rate2" title="Not good">2 stars</label>
+            <input type="radio" id="first-rate3" name="rating" value="3" />
+            <label for="first-rate3" title="Average">3 stars</label>
+            <input type="radio" id="first-rate4" name="rating" value="4" />
+            <label for="first-rate4" title="Very good">4 stars</label>
+            <input type="radio" id="first-rate5" name="rating" value="5" />
+            <label for="first-rate5" title="Amazing">5 stars</label>
+          </fieldset>
+          </div>
+
+
+            <div class="mb-4">
+            <label for="comment" class="form-label">Comment</label>
+            <textarea name="comment" class="form-control" rows="6" required></textarea>
+            <div class="invalid-feedback">please fill it first</div>
+            <br />
+            <button class="btn btn-outline-dark">submit</button>
+          </div>
+        </form>
+      <% } %>
+
+      <hr />
+
+<!-- show reviews -->
+      <h3>All Reviews</h3>
+
+      <div class="show-review row ">
+        <%for (review of fulllisting.reviews) {%>
+
+        <!-- fulllisting obj a nirdisto id ar all details ache r ekh
+            ane fulllisting a j rewiw array taache seta fuul tottho j
+            ukto populate() ude ar jonno , r ekhane fulllisting holo
+            {
+              
+            }-->
+
+        <div class="card review-box col-md-2 w-50">
+          <div class="px-1">
+            <i><h6>@<%= review.author.username %></h6></i>
+          </div>
+            <p class="starability-result" data-rating="<%=review.rating%>">
+            </p>
+          <div class="px-1">
+            <p><%=review.comment%>&nbsp;</p>
+          </div>
+          <form class="b" method="POST" action="/listing/<%=fulllisting._id%>/reviews/<%=review._id%>?_method=DELETE">
+            <button class="btn btn-dark">Delet</button>
+          </form>
+        </div>
+        <%}%>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- listing delet ar final popup -->
+<div class="delete-pop">
+  <h5>x</h5>
+  <p>Are you sure, you want to delete thid listing &nbsp;
+
+  <form method="post" action="/listing/<%=fulllisting._id%>?_method=DELETE">
+    <button class="btn btn-outline-dark">OK</button>
+  </form>
+</p>
+</div>
