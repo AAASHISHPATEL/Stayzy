@@ -109,7 +109,11 @@ app.use((err, req, res, next) => {
   let { status = 500, message = "something wrong" } = err; //This is mandatory; this code must be written in every server for error handling.
   res.render("error/error.ejs", { message });
 });
+let port = process.env.PORT; 
+if(port == null || port == ""){
+  port = 3000;
+}
 
-app.listen(4000, () => {
-  console.log("listening at 4000");
+app.listen(port, () => {
+  console.log(`listening at ${port}`);
 });
