@@ -37,6 +37,7 @@ main().catch((err) => console.log(err));
 
 async function main() {
   await mongoose.connect(dbUrl);
+  console.log("connected to DB");
 }
 
 const store = MongoStore.create({
@@ -48,7 +49,7 @@ const store = MongoStore.create({
   touchAfter: 36000 * 24,
 });
 
-store.on("error", () => {
+store.on("error", (err) => {
   console.log("Error is :->", err);
 });
 
@@ -77,6 +78,11 @@ app.use((req, res, next) => {
   res.locals.success = req.flash("success"); //success in an array
   res.locals.error = req.flash("error");
   res.locals.currentUser = req.user; //I can't use req.user directly in the EJS template, so I saved it in locals, and for access, I just need to use currentUser.
+  next();
+});
+
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user || null; //  Define `currentUser`
   next();
 });
 
@@ -109,10 +115,8 @@ app.use((err, req, res, next) => {
   let { status = 500, message = "something wrong" } = err; //This is mandatory; this code must be written in every server for error handling.
   res.render("error/error.ejs", { message });
 });
-let port = process.env.PORT; 
-if(port == null || port == ""){
-  port = 3000;
-}
+let port = process.env.PORT || 3000;  
+
 
 app.listen(port, () => {
   console.log(`listening at ${port}`);
