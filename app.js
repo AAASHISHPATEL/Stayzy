@@ -81,10 +81,9 @@ passport.deserializeUser(User.deserializeUser()); //I must write 5 lines of code
 app.use((req, res, next) => {
   res.locals.success = req.flash("success"); //success in an array
   res.locals.error = req.flash("error");
-  res.locals.currentUser = req.user; //I can't use req.user directly in the EJS template, so I saved it in locals, and for access, I just need to use currentUser.
+  res.locals.currentUser = req.user || null; //I can't use req.user directly in the EJS template, so I saved it in locals, and for access, I just need to use currentUser.
   next();
 });
-
 
 app.get("/", (req, res) => {
   res.render("listing/landing-page.ejs");
@@ -103,7 +102,9 @@ app.get("/listing/filter/:category", async (req, res) => {
 app.post("/listing/search/", async (req, res) => {
   let { title } = req.body.listingss;
   console.log(req.body.listingss);
-  let alllisting = await Listing.find({ $or: [{ title: { $regex: title, $options: "i" } }] });
+  let alllisting = await Listing.find({
+    $or: [{ title: { $regex: title, $options: "i" } }],
+  });
   res.render("listing/home.ejs", { alllisting: alllisting });
 });
 
@@ -116,8 +117,7 @@ app.use((err, req, res, next) => {
   res.status(status).render("error/error.ejs", { message, status });
 });
 
-let port = process.env.PORT || 3000;  
-
+let port = process.env.PORT || 3000;
 
 app.listen(port, () => {
   console.log(`listening at ${port}`);
