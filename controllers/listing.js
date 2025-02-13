@@ -1,5 +1,6 @@
 const Listing = require("../models/listing.js");
 const listingSchema = require("../schema_joi.js");
+const BASE_URL = process.env.BASE_URL; //This line is used to store the base URL in a variable.
 
 module.exports.index = async (req, res, next) => {
   let alllisting = await Listing.find({}); //I retrieved all the data, which is an array, and stored it in allListing.
@@ -22,7 +23,8 @@ module.exports.showSingleListing = async (req, res, next) => {
     .populate("owner");
   if (!fulllisting) {
     req.flash("error", "Listing does not exist");
-    res.redirect("/listing");
+    
+    res.redirect(`${BASE_URL}/listing`);
   }
   res.render("listing/show.ejs", { fulllisting });
 };
@@ -42,7 +44,7 @@ module.exports.newListingSave = async (req, res, next) => {
   newListing.category = Object.values(req.body.category);
   await newListing.save(); //When printing newListing, an object will appear, and it is logged on line 70 with console.log(req.body.listing).
   req.flash("success", "New listing was created!"); //This line creates a flash message for success.
-  res.redirect("/listing");
+  res.redirect(`${BASE_URL}/listing`); //This line redirects to the home page.
 };
 
 module.exports.editForm = async (req, res, next) => {
@@ -50,7 +52,7 @@ module.exports.editForm = async (req, res, next) => {
   const listing = await Listing.findById(id);
   if (!listing) {
     req.flash("error", "Listing does not exist");
-    res.redirect("/listing");
+    res.redirect(`${BASE_URL}/listing`); //This line redirects to the home page.
   }
   res.render("listing/edit.ejs", { listing });
 };
@@ -73,12 +75,12 @@ module.exports.listingUpdate = async (req, res, next) => {
     newListing.save();
   }
   req.flash("success", "Listing updated!");
-  res.redirect(`/listing/${id}`);
+  res.redirect(`${BASE_URL}/listing/${id}`);
 };
 
 module.exports.distroyListinf = async (req, res, next) => {
   let { id } = req.params;
   await Listing.findByIdAndDelete(id);
   req.flash("success", "listing was deleted!");
-  res.redirect("/listing");
+  res.redirect(`${BASE_URL}/listing`);
 };

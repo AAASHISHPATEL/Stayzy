@@ -1,5 +1,6 @@
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
+const BASE_URL = process.env.BASE_URL;
 
 
 module.exports.addReview = async (req, res, next) => {
@@ -14,7 +15,7 @@ module.exports.addReview = async (req, res, next) => {
   await listing.save();
 
   req.flash("success", "Review added!");
-  res.redirect(`/listing/${id}`);
+  res.redirect(`${BASE_URL}/listing/${id}`);
 };
 
 module.exports.deletReview = async (req, res) => {
@@ -23,5 +24,5 @@ module.exports.deletReview = async (req, res) => {
   await Listing.findByIdAndUpdate(id, { $pull: { reviews: reviewId } }); //pull means deleting from array
   await Review.findByIdAndDelete(reviewId);
   req.flash("success", "Review was deleted!");
-  res.redirect(`/listing/${id}`);
+  res.redirect(`${BASE_URL}/listing/${id}`);
 };

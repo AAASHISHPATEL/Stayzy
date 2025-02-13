@@ -1,6 +1,7 @@
 const Listing = require("../models/listing.js");
 const Review = require("../models/review.js");
 const User = require("../models/user.js");
+const BASE_URL = process.env.BASE_URL;
 
 module.exports.signUpForm = (req, res) => {
   res.render("authentication/signup.ejs");
@@ -15,11 +16,11 @@ module.exports.signUp = async (req, res) => {
     // console.log(registorUser);     ar output asbe DB te save hoya user ar object with username , email, salt, hash etc key value pair
     req.login(registorUser, () => {
       req.flash("success", "Now you Login!");
-      res.redirect("/listing");
+      res.redirect(`${BASE_URL}/listing`);
     });
   } catch (error) {
     req.flash("error", "Username alredy exist");
-    res.redirect("/signup");
+    res.redirect(`${BASE_URL}/signup`);
   }
 };
 
@@ -30,13 +31,13 @@ module.exports.logInForm = (req, res) => {
 module.exports.logIn = async (req, res) => {
   // This middleware uses Passport to check whether the provided username is already saved in the database.
   req.flash("success", "Successfully login");
-  let reDirectVer = res.locals.saveurl || "/listing";
+  let reDirectVer = res.locals.saveurl || `${BASE_URL}/listing`;
   res.redirect(reDirectVer);
 };
 
 module.exports.logOut = (req, res) => {
   req.logout(() => {
     req.flash("success", "Now you Log out!");
-    res.redirect("/listing");
+    res.redirect(`${BASE_URL}/listing`);
   });
 };
