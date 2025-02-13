@@ -36,8 +36,12 @@ const dbUrl = process.env.ATLASDB_URL;
 main().catch((err) => console.log(err));
 
 async function main() {
-  await mongoose.connect(dbUrl);
-  console.log("connected to DB");
+  try {
+    await mongoose.connect(dbUrl);
+    console.log("✅ Connected to DB");
+  } catch (err) {
+    console.error("❌ MongoDB Connection Error:", err);
+  }
 }
 
 const store = MongoStore.create({
@@ -81,10 +85,6 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user || null; //  Define `currentUser`
-  next();
-});
 
 app.get("/", (req, res) => {
   res.render("listing/landing-page.ejs");
@@ -112,9 +112,10 @@ app.all("*", (req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  let { status = 500, message = "something wrong" } = err; //This is mandatory; this code must be written in every server for error handling.
-  res.render("error/error.ejs", { message });
+  let { status = 500, message = "Something went wrong" } = err;
+  res.status(status).render("error/error.ejs", { message, status });
 });
+
 let port = process.env.PORT || 3000;  
 
 
