@@ -24,7 +24,7 @@ module.exports.showSingleListing = async (req, res, next) => {
   if (!fulllisting) {
     req.flash("error", "Listing does not exist");
     
-    res.redirect(`${BASE_URL}/listing`);
+    res.redirect("/listing");
   }
   res.render("listing/show.ejs", { fulllisting });
 };
@@ -44,7 +44,7 @@ module.exports.newListingSave = async (req, res, next) => {
   newListing.category = Object.values(req.body.category);
   await newListing.save(); //When printing newListing, an object will appear, and it is logged on line 70 with console.log(req.body.listing).
   req.flash("success", "New listing was created!"); //This line creates a flash message for success.
-  res.redirect(`${BASE_URL}/listing`); //This line redirects to the home page.
+  res.redirect(`/listing`); //This line redirects to the home page.
 };
 
 module.exports.editForm = async (req, res, next) => {
@@ -52,7 +52,7 @@ module.exports.editForm = async (req, res, next) => {
   const listing = await Listing.findById(id);
   if (!listing) {
     req.flash("error", "Listing does not exist");
-    res.redirect(`${BASE_URL}/listing`); //This line redirects to the home page.
+    res.redirect(`/listing`); //This line redirects to the home page.
   }
   res.render("listing/edit.ejs", { listing });
 };
@@ -72,15 +72,15 @@ module.exports.listingUpdate = async (req, res, next) => {
     let url = req.file.path; //Just like req.body contains URL-encoded data, req.file parses files when using Multer.
     let filename = req.file.filename;
     newListing.image = { url, filename };
-    newListing.save();
+    newListing.save();git 
   }
   req.flash("success", "Listing updated!");
-  res.redirect(`${BASE_URL}/listing/${id}`);
+  res.redirect(`/listing/${id}`);
 };
 
 module.exports.distroyListinf = async (req, res, next) => {
   let { id } = req.params;
   await Listing.findByIdAndDelete(id);
   req.flash("success", "listing was deleted!");
-  res.redirect(`${BASE_URL}/listing`);
+  res.redirect(`/listing`);
 };

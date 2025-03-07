@@ -1,5 +1,5 @@
 const Listing = require("../models/listing.js");
-const Review = require("../models/review.js")
+const Review = require("../models/review.js");
 
 module.exports.isLogin = async (req, res, next) => {
   if (!req.isAuthenticated()) {
@@ -33,7 +33,7 @@ module.exports.isReviewAuthor = async (req, res, next) => {
   let review = await Review.findById(reviewId);
   if (!res.locals.currentUser._id.equals(review.author._id)) {
     req.flash("error", "You are not the author of this post");
-    return res.redirect(`${BASE_URL}/listing/${id}`);
+    return res.redirect(`/listing/${id}`);
   }
   next();
 };
