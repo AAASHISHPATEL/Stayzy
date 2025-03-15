@@ -31,13 +31,15 @@ app.use(express.static(path.join(__dirname, "/public")));
 app.engine("ejs", engine);
 
 const dbUrl = process.env.ATLASDB_URL;
+const mongoDBAtlas = process.env.MONGO_URI;
 // const dbUrl2 = "mongodb://localhost:27017/wanderlust";
 
 main().catch((err) => console.log(err));
 
-async function main() {
+async function main() { 
   try {
-    await mongoose.connect(dbUrl);
+    // await mongoose.connect(dbUrl);    
+    await mongoose.connect(mongoDBAtlas);  
     console.log("✅ Connected to DB");
   } catch (err) {
     console.error("❌ MongoDB Connection Error:", err);
@@ -46,15 +48,15 @@ async function main() {
 
 const store = MongoStore.create({
   //method to creat ney mongo store
-  mongoUrl: dbUrl,
+  mongoUrl: mongoDBAtlas,
   crypto: {
     secret: process.env.SECRET,
   },
   touchAfter: 36000 * 24,
-});
+}); 
 
 store.on("error", (err) => {
-  console.log("Error is :->", err);
+  console.log("Error is :->", err); 
 });
 
 const sess = {
