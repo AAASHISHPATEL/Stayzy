@@ -15,7 +15,7 @@
       <a href="/listing/<%= fulllisting._id %>/edit"><button class="a">Edit</button></a>
     </div>
     <div class="delet-btn">
-      <a><button class="a pr-1">Delet</button></a>
+      <a><button class="a pr-1">Delete</button></a>
     </div>
     <hr>
     <% } %>
@@ -80,7 +80,7 @@
             <p><%=review.comment%>&nbsp;</p>
           </div>
           <form class="b" method="POST" action="/listing/<%=fulllisting._id%>/reviews/<%=review._id%>?_method=DELETE">
-            <button class="btn btn-dark">Delet</button>
+            <button class="btn btn-dark">Delete</button>
           </form>
         </div>
         <%}%>
@@ -92,7 +92,7 @@
 <!-- listing delet ar final popup -->
 <div class="delete-pop">
   <h5>x</h5>
-  <p>Are you sure, you want to delete thid listing &nbsp;
+  <p>Are you sure, you want to delete this listing &nbsp;
 
   <form method="post" action="/listing/<%=fulllisting._id%>?_method=DELETE">
     <button class="btn btn-outline-dark">OK</button>

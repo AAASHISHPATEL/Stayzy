@@ -22,7 +22,7 @@ module.exports.isOwner = async (req, res, next) => {
   let { id } = req.params;
   let listing = await Listing.findById(id);
   if (!res.locals.currentUser._id.equals(listing.owner._id)) {
-    req.flash("error", "You have don't permission to edit");
+    req.flash("error", "You don't have permission to edit");
     return res.redirect(`/listing/${id}`);
   }
   next();

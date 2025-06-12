@@ -15,7 +15,7 @@ module.exports.signUp = async (req, res) => {
     let registorUser = await User.register(newUser, password); //equvalent to newUser.save()
     // console.log(registorUser);     ar output asbe DB te save hoya user ar object with username , email, salt, hash etc key value pair
     req.login(registorUser, () => {
-      req.flash("success", "Now you Login!");
+      req.flash("success", "Login successful!");
       res.redirect(`/listing`);
     });
   } catch (error) {
@@ -37,7 +37,7 @@ module.exports.logIn = async (req, res) => {
 
 module.exports.logOut = (req, res) => {
   req.logout(() => {
-    req.flash("success", "Now you Log out!");
+    req.flash("success", "Logged out!");
     res.redirect(`/listing`);
   });
 };

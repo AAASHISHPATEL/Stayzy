@@ -43,7 +43,7 @@ module.exports.newListingSave = async (req, res, next) => {
   newListing.image = { url, filename };
   newListing.category = Object.values(req.body.category);
   await newListing.save(); //When printing newListing, an object will appear, and it is logged on line 70 with console.log(req.body.listing).
-  req.flash("success", "New listing was created!"); //This line creates a flash message for success.
+  req.flash("success", "New listing created!"); //This line creates a flash message for success.
   res.redirect(`/listing`); //This line redirects to the home page.
 };
 
@@ -81,6 +81,6 @@ module.exports.listingUpdate = async (req, res, next) => {
 module.exports.distroyListinf = async (req, res, next) => {
   let { id } = req.params;
   await Listing.findByIdAndDelete(id);
-  req.flash("success", "listing was deleted!");
+  req.flash("success", "listing deleted!");
   res.redirect(`/listing`);
 };
